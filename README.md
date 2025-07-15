@@ -47,3 +47,27 @@ This is a one page website with the following sections:
 - Infrastructure: Google Cloud Run
 - Data Storage: Google Cloud Storage
 
+## Data Storage
+
+The engagement data should be saved as a single JSON file in the following format:
+
+```json
+{
+    "kings":[
+        {
+            "timestamp":123456,
+            "total_views": 123,
+            "total_likes": 123,
+            "total_comments": 123,
+            "views_threads": 123,
+            "likes_threads": 123,
+            "comments_threads": 123,
+            "views_instagram": 123,
+            ...
+        },
+        ...
+    ],
+    "car_wash": ...,
+    ...
+}
+```

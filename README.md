@@ -43,13 +43,14 @@ This is a one page website with the following sections:
 
 ## Tech Stack
 
+- Frontend: ?
 - Backend: Python
 - Infrastructure: Google Cloud Run
 - Data Storage: Google Cloud Storage
 
 ## Data Storage
 
-The engagement data should be saved as a single JSON file in the following format:
+The engagement data are saved as a single JSON file in the following format:
 
 ```json
 {
@@ -65,9 +66,11 @@ The engagement data should be saved as a single JSON file in the following forma
             "views_instagram": 123,
             ...
         },
-        ...
+        {"timestamp":1234212, ...}
     ],
     "car_wash": ...,
     ...
 }
 ```
+
+When loading the page, if it has been more than 4 hours since the last data point, new social data are fetched for each video and social platform and added to the JSON file. Otherwise, the latest social data from the JSON file is used.

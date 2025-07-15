@@ -4,15 +4,18 @@ import os
 import time
 import threading
 import logging
+from dotenv import load_dotenv
 from social_fetcher import SocialMediaFetcher
+
+# Load environment variables
+load_dotenv()
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 
 # Configuration
-BUCKET_NAME = os.environ.get('BUCKET_NAME', 'fools-gold-data')
-DATA_FILE = 'engagement_data.json'
-REFRESH_INTERVAL = 4 * 60 * 60  # 4 hours in seconds
+DATA_FILE = os.environ.get('DATA_FILE', 'engagement_data.json')
+REFRESH_INTERVAL = int(os.environ.get('REFRESH_INTERVAL', 4 * 60 * 60))  # Default 4 hours in seconds
 
 # Video and player mappings
 VIDEOS = {
@@ -139,7 +142,7 @@ class DataManager:
         
         return len([v for v in self.data.values() if v]) == 0
     
-    def fetch_social_data(self, video_id, platform, url):
+    def fetch_social_data(self, platform, url):
         return self.fetcher.fetch_data(platform, url)
     
     def refresh_data(self):
@@ -158,7 +161,7 @@ class DataManager:
                 
                 for platform, url in platforms.items():
                     try:
-                        data = self.fetch_social_data(video_id, platform, url)
+                        data = self.fetch_social_data(platform, url)
                         total_views += data['views']
                         total_likes += data['likes']
                         total_comments += data['comments']

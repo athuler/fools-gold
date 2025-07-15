@@ -346,16 +346,18 @@ def initialize_app():
 
     # Start background refresh
     def background_refresh():
+        # Do initial refresh in background thread
+        data_manager.refresh_data()
+        
+        # Then continue with regular refresh cycle
         while True:
-            data_manager.refresh_data()
             time.sleep(REFRESH_INTERVAL)
+            data_manager.refresh_data()
 
     refresh_thread = threading.Thread(target=background_refresh, daemon=True)
     refresh_thread.start()
 
-    # Initial refresh
-    data_manager.refresh_data()
-    app.logger.info("App initialization complete.")
+    app.logger.info("App initialization complete. Data refresh running in background.")
 
 with app.app_context():
     if __name__ != '__main__':

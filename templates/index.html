@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fool's Gold - Video Engagement Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+            padding: 30px;
+            text-align: center;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.8;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 3px solid #ffd700;
+            padding-bottom: 10px;
+        }
+
+        .toggle-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .toggle-btn {
+            padding: 10px 20px;
+            background: #f5f5f5;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .toggle-btn.active {
+            background: #ffd700;
+            border-color: #ffd700;
+            color: #333;
+        }
+
+        .toggle-btn:hover {
+            background: #e6e6e6;
+        }
+
+        .toggle-btn.active:hover {
+            background: #ffed4a;
+        }
+
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .ranking-table th,
+        .ranking-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .ranking-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .ranking-table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .rank {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .score {
+            font-weight: bold;
+            color: #764ba2;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-top: 20px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .toggle-buttons {
+                justify-content: center;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏆 Fool's Gold</h1>
+            <p class="subtitle">Game Changer Video Engagement Tracker</p>
+        </header>
+
+        <div class="content">
+            <div class="section">
+                <h2>📹 Video Rankings</h2>
+                <div class="toggle-buttons">
+                    <button class="toggle-btn active" onclick="setVideoMode('combined')">Combined Score</button>
+                    <button class="toggle-btn" onclick="setVideoMode('views')">Total Views</button>
+                    <button class="toggle-btn" onclick="setVideoMode('likes')">Total Likes</button>
+                    <button class="toggle-btn" onclick="setVideoMode('comments')">Total Comments</button>
+                </div>
+                <div id="video-rankings">
+                    <div class="loading">Loading video rankings...</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🎭 Player Rankings</h2>
+                <div class="toggle-buttons">
+                    <button class="toggle-btn active" onclick="setPlayerMode('combined')">Combined Score</button>
+                    <button class="toggle-btn" onclick="setPlayerMode('views')">Total Views</button>
+                    <button class="toggle-btn" onclick="setPlayerMode('likes')">Total Likes</button>
+                    <button class="toggle-btn" onclick="setPlayerMode('comments')">Total Comments</button>
+                </div>
+                <div id="player-rankings">
+                    <div class="loading">Loading player rankings...</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📈 Historical Trends</h2>
+                <div class="toggle-buttons">
+                    <button class="toggle-btn active" onclick="setTrendMode('combined')">Combined Score</button>
+                    <button class="toggle-btn" onclick="setTrendMode('views')">Total Views</button>
+                    <button class="toggle-btn" onclick="setTrendMode('likes')">Total Likes</button>
+                    <button class="toggle-btn" onclick="setTrendMode('comments')">Total Comments</button>
+                </div>
+                <div class="grid">
+                    <div>
+                        <h3>Video Trends</h3>
+                        <div class="chart-container">
+                            <canvas id="video-trends-chart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Player Trends</h3>
+                        <div class="chart-container">
+                            <canvas id="player-trends-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let videoData = {};
+        let playerData = {};
+        let trendsData = {};
+        let videoMode = 'combined';
+        let playerMode = 'combined';
+        let trendMode = 'combined';
+        let videoChart = null;
+        let playerChart = null;
+
+        async function fetchData() {
+            try {
+                const [videosResponse, playersResponse, trendsResponse] = await Promise.all([
+                    fetch('/api/videos'),
+                    fetch('/api/players'),
+                    fetch('/api/trends')
+                ]);
+
+                videoData = await videosResponse.json();
+                playerData = await playersResponse.json();
+                trendsData = await trendsResponse.json();
+
+                updateVideoRankings();
+                updatePlayerRankings();
+                updateTrendsCharts();
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        function setVideoMode(mode) {
+            videoMode = mode;
+            document.querySelectorAll('.section:nth-child(1) .toggle-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            updateVideoRankings();
+        }
+
+        function setPlayerMode(mode) {
+            playerMode = mode;
+            document.querySelectorAll('.section:nth-child(2) .toggle-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            updatePlayerRankings();
+        }
+
+        function setTrendMode(mode) {
+            trendMode = mode;
+            document.querySelectorAll('.section:nth-child(3) .toggle-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            updateTrendsCharts();
+        }
+
+        function updateVideoRankings() {
+            const rankings = Object.values(videoData)
+                .sort((a, b) => b[videoMode] - a[videoMode])
+                .map((video, index) => ({
+                    rank: index + 1,
+                    name: video.name,
+                    score: video[videoMode].toLocaleString()
+                }));
+
+            const html = `
+                <table class="ranking-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Video</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rankings.map(item => `
+                            <tr>
+                                <td class="rank">#${item.rank}</td>
+                                <td>${item.name}</td>
+                                <td class="score">${item.score}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+
+            document.getElementById('video-rankings').innerHTML = html;
+        }
+
+        function updatePlayerRankings() {
+            const rankings = Object.values(playerData)
+                .sort((a, b) => b[playerMode] - a[playerMode])
+                .map((player, index) => ({
+                    rank: index + 1,
+                    name: player.name,
+                    score: player[playerMode].toLocaleString()
+                }));
+
+            const html = `
+                <table class="ranking-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rankings.map(item => `
+                            <tr>
+                                <td class="rank">#${item.rank}</td>
+                                <td>${item.name}</td>
+                                <td class="score">${item.score}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+
+            document.getElementById('player-rankings').innerHTML = html;
+        }
+
+        function updateTrendsCharts() {
+            updateVideoTrendsChart();
+            updatePlayerTrendsChart();
+        }
+
+        function updateVideoTrendsChart() {
+            const ctx = document.getElementById('video-trends-chart').getContext('2d');
+            
+            if (videoChart) {
+                videoChart.destroy();
+            }
+
+            const datasets = Object.values(trendsData.videos || {}).map((video, index) => ({
+                label: video.name,
+                data: video.data.map(point => ({
+                    x: new Date(point.timestamp * 1000),
+                    y: point[trendMode]
+                })),
+                borderColor: `hsl(${index * 360 / Object.keys(trendsData.videos || {}).length}, 70%, 50%)`,
+                backgroundColor: `hsla(${index * 360 / Object.keys(trendsData.videos || {}).length}, 70%, 50%, 0.1)`,
+                fill: false,
+                tension: 0.4
+            }));
+
+            videoChart = new Chart(ctx, {
+                type: 'line',
+                data: { datasets },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'hour'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+        }
+
+        function updatePlayerTrendsChart() {
+            const ctx = document.getElementById('player-trends-chart').getContext('2d');
+            
+            if (playerChart) {
+                playerChart.destroy();
+            }
+
+            const datasets = Object.values(trendsData.players || {}).map((player, index) => ({
+                label: player.name,
+                data: player.data.map(point => ({
+                    x: new Date(point.timestamp * 1000),
+                    y: point[trendMode]
+                })),
+                borderColor: `hsl(${index * 120}, 70%, 50%)`,
+                backgroundColor: `hsla(${index * 120}, 70%, 50%, 0.1)`,
+                fill: false,
+                tension: 0.4
+            }));
+
+            playerChart = new Chart(ctx, {
+                type: 'line',
+                data: { datasets },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'hour'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize
+        fetchData();
+        setInterval(fetchData, 60000); // Refresh every minute
+    </script>
+</body>
+</html>

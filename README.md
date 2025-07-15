@@ -2,7 +2,7 @@
 
 Tracking the scores for Game Changer's [*Fool's Gold*](https://www.dropout.tv/videos/fool-s-gold).
 
-In Game Changer's episode "Fool's Gold" (Season 7 Episode 8), 10 videos were posted across various social media platforms.
+In Game Changer's episode "Fool's Gold" (Season 7, Episode 8, released July 14, 2025), 10 videos were posted across various social media platforms.
 
 ## Video Scoring
 
@@ -26,14 +26,24 @@ Each video sums their number of views, likes, and comments it received across al
 
 ## Player Scoring
 
-**Trapp**: Glue, Cracks, 0.5 * Puppy Bowl, 0.5 * Holes, 1/3 * Brennan
-**Jordan**: Kings, Hair, 0.5 * Car Wash, Breast Milk, 1/3 * Brennan
-**Rekha**: Dimension 20, 0.5 * Car Wash, 0.5 * Puppy Bowl, 0.5 * Holes, 1/3 * Brennan
+- **Trapp**: Glue, Cracks, 0.5 * Puppy Bowl, 0.5 * Holes, 1/3 * Brennan
+- **Jordan**: Kings, Hair, 0.5 * Car Wash, Breast Milk, 1/3 * Brennan
+- **Rekha**: Dimension 20, 0.5 * Car Wash, 0.5 * Puppy Bowl, 0.5 * Holes, 1/3 * Brennan
 
+## Page Layout
+
+This is a one page website with the following sections:
+
+1. **Video Ranking**
+    Displays the ranking of all videos with a toggle to toggle between modes (combined, total views, ...)
+2. **Player Ranking**
+    Displays the ranking of all players with a toggle to toggle between modes (combined, total views, ...)
+3. **Historical Trends**
+    Display using two linegraphs how the scores of the videos and players have changed since July 15th, 2025.
 
 ## Tech Stack
 
-Frontend: HTML, CSS, JS
-Backend: Python
-Infrastructure: Google Cloud Run
-Data Storage: Google Cloud Storage
+- Backend: Python
+- Infrastructure: Google Cloud Run
+- Data Storage: Google Cloud Storage
+

@@ -1,8 +1,12 @@
 # Fool's Gold
 
-Tracking the scores for Game Changer's *Fool's Gold*.
+Tracking the scores for Game Changer's [*Fool's Gold*](https://www.dropout.tv/videos/fool-s-gold).
 
 In Game Changer's episode "Fool's Gold" (Season 7 Episode 8), 10 videos were posted across various social media platforms.
+
+## Video Scoring
+
+Each video sums their number of views, likes, and comments it received across all social media platforms. Users are able to toggle between a combined score (view + likes + comments), total views, total likes, or total comments.
 
 |        | Threads | Instagram | TikTok | YT Shorts |
 | ---- | --- | --- | --- | --- |
@@ -10,17 +14,26 @@ In Game Changer's episode "Fool's Gold" (Season 7 Episode 8), 10 videos were pos
 | Car Wash | [Link](https://www.threads.com/@gamechangershow/post/DMG0NabtH7O) | [Link](https://www.instagram.com/gamechangershow/reel/DMG0OcPpSQO/) | [Link](https://www.tiktok.com/@gamechangershow/video/7527082014449716494) | [Link](https://www.youtube.com/shorts/HD5pyGbO_Is) |
 | Glue | [Link](https://www.threads.com/@gamechangershow/post/DMG0j6qCAjE) | [Link](https://www.instagram.com/gamechangershow/reel/DMG0jk2tbeR/) | [Link](https://www.tiktok.com/@gamechangershow/video/7527082801120677133) | [Link](https://www.youtube.com/shorts/gMpx4A2lRTE) |
 | Cracks | [Link](https://www.threads.com/@gamechangershow/post/DMG1A9LKqlQ) | [Link](https://www.instagram.com/gamechangershow/reel/DMG1BIPM41Z/) | [Link](https://www.tiktok.com/@gamechangershow/video/7527083827689229582) | [Link](https://www.youtube.com/shorts/1lnl0jYln8s) |
-| D20: On a Bus | [Link](https://www.threads.com/@gamechangershow/post/DMG1HnRz9CN) | [Link](https://www.instagram.com/gamechangershow/reel/DMGzkMNNMXg/) | [Link](https://www.tiktok.com/@gamechangershow/video/7527080453610704183) | [Link](https://www.youtube.com/shorts/5feqZBLXrMg) |
+| Dimension 20 | [Link](https://www.threads.com/@gamechangershow/post/DMG1HnRz9CN) | [Link](https://www.instagram.com/gamechangershow/reel/DMGzkMNNMXg/) | [Link](https://www.tiktok.com/@gamechangershow/video/7527080453610704183) | [Link](https://www.youtube.com/shorts/5feqZBLXrMg) |
 | Puppy Bowl | [Link](https://www.threads.com/@gamechangershow/post/DMG1eOyqxs2) | [Link](https://www.instagram.com/gamechangershow/reel/DMG1d62Mhmf/) | [Link](https://www.tiktok.com/@gamechangershow/video/7527084871580142861) | [Link](https://www.youtube.com/shorts/aagwlycxv_k) |
 | Breast Milk | [Link](https://www.threads.com/@gamechangershow/post/DMG10FKBp3C) | [Link](https://www.instagram.com/gamechangershow/reel/DMG11avO8qa/) | [Link](https://www.tiktok.com/@gamechangershow/video/7527085610322890039) | [Link](https://www.youtube.com/shorts/nfwmaVlp_hY) |
 | Hair | [Link](https://www.threads.com/@gamechangershow/post/DMG2C-6PSo4) | [Link](https://www.instagram.com/gamechangershow/reel/DMG2ELMvZdg/) | [Link](https://www.tiktok.com/@gamechangershow/video/7527086113614318862) | [Link](https://www.youtube.com/shorts/wQVIfuNIc9I) |
 | Holes | [Link](https://www.threads.com/@gamechangershow/post/DMG2RwdtsH3) | [Link](https://www.instagram.com/gamechangershow/reel/DMG2SXRMojo/) | [Link](https://www.tiktok.com/@gamechangershow/video/7527086642415422734) | [Link](https://www.youtube.com/shorts/Wm8SMsmWCts) |
 | Brennan | [Link](https://www.threads.com/@gamechangershow/post/DMG22Q7B_IV) | [Link](https://www.instagram.com/gamechangershow/reel/DMG24Zjyg1j/) | [Link](https://www.tiktok.com/@gamechangershow/video/7527087942339267895) | [Link](https://www.youtube.com/shorts/oO4kgmYivoQ) |
 
+> [!NOTE]
+> We are purposefully not scoring Twitter engagement
 
-Each video should get a score based on the number of views, likes, and comments it received across all social media platforms. (with multipliers to adjust the weight of views, likes and comments on the final score depending on what the user wants to compare the videos with).
+## Player Scoring
+
+**Trapp**: Glue, Cracks, 0.5 * Puppy Bowl, 0.5 * Holes, 1/3 * Brennan
+**Jordan**: Kings, Hair, 0.5 * Car Wash, Breast Milk, 1/3 * Brennan
+**Rekha**: Dimension 20, 0.5 * Car Wash, 0.5 * Puppy Bowl, 0.5 * Holes, 1/3 * Brennan
+
 
 ## Tech Stack
 
 Frontend: HTML, CSS, JS
-Backend: PHP, Apache Server
+Backend: Python
+Infrastructure: Google Cloud Run
+Data Storage: Google Cloud Storage

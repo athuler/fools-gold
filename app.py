@@ -309,6 +309,7 @@ def api_trends():
     return jsonify(trends)
 
 if __name__ == '__main__':
+    app.logger.info("Loading data...")
     data_manager.load_data()
     
     # Start background refresh

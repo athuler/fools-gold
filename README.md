@@ -74,3 +74,12 @@ The engagement data are saved as a single JSON file in the following format:
 ```
 
 When loading the page, if it has been more than 4 hours since the last data point, new social data are fetched for each video and social platform and added to the JSON file. Otherwise, the latest social data from the JSON file is used.
+
+
+## Run
+
+```sh
+source venv/bin/activate && gunicorn --bind 0.0.0.0:8080 --workers 1 --timeout 120 --log-level info --access-logfile - --error-logfile - --capture-output --preload app:app
+```
+
+

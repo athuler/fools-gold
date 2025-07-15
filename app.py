@@ -10,17 +10,27 @@ from social_fetcher import SocialMediaFetcher
 # Load environment variables
 load_dotenv()
 
-# gunicorn_logger = logging.getLogger('gunicorn.error')
 app = Flask(__name__)
-# app.logger.handlers = gunicorn_logger.handlers
-# app.logger.setLevel(level=logging.INFO)
-# logging.basicConfig(level=logging.INFO)
 
+# Configure logging for both development and production
 if __name__ != '__main__':
+    # Running under gunicorn
     gunicorn_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers.clear()  # Clear any existing handlers
     app.logger.handlers = gunicorn_logger.handlers
     app.logger.setLevel(gunicorn_logger.level)
-    app.logger.info("Set logging info.")
+    app.logger.propagate = False  # Prevent propagation to avoid duplicates
+    
+    # Also configure the root logger to use gunicorn's handlers
+    root_logger = logging.getLogger()
+    root_logger.handlers.clear()  # Clear any existing handlers
+    root_logger.handlers = gunicorn_logger.handlers
+    root_logger.setLevel(gunicorn_logger.level)
+    
+else:
+    # Running in development mode
+    logging.basicConfig(level=logging.INFO)
+    app.logger.setLevel(logging.INFO)
 
 # Configuration
 DATA_FILE = os.environ.get('DATA_FILE', 'engagement_data.json')
@@ -317,22 +327,41 @@ def api_trends():
     
     return jsonify(trends)
 
-if __name__ == '__main__':
+data_manager = DataManager()
+_initialized = False
+
+def initialize_app():
+    """Initialize the application with data loading and background refresh"""
+    global _initialized
+    if _initialized:
+        app.logger.info("App already initialized, skipping...")
+        return
+    
+    _initialized = True
+    app.logger.info("Starting app initialization...")
     app.logger.info("Loading data...")
     data_manager.load_data()
 
     app.logger.info(f"Data refresh every {REFRESH_INTERVAL} seconds")
-    
+
     # Start background refresh
     def background_refresh():
         while True:
             data_manager.refresh_data()
             time.sleep(REFRESH_INTERVAL)
-    
+
     refresh_thread = threading.Thread(target=background_refresh, daemon=True)
     refresh_thread.start()
-    
+
     # Initial refresh
     data_manager.refresh_data()
-    
+    app.logger.info("App initialization complete.")
+
+with app.app_context():
+    if __name__ != '__main__':
+        # Running under gunicorn
+        initialize_app()
+
+if __name__ == '__main__':
+    initialize_app()
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)), debug=False)

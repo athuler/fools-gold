@@ -211,6 +211,9 @@ class DataManager:
 data_manager = DataManager()
 
 def get_latest_video_scores():
+    # Reload data from file to get latest updates
+    data_manager.load_data()
+    
     scores = {}
     for video_id, video_data in data_manager.data.items():
         if video_data:
@@ -268,6 +271,9 @@ def api_players():
 
 @app.route('/api/trends')
 def api_trends():
+    # Reload data from file to get latest updates
+    data_manager.load_data()
+    
     trends = {'videos': {}, 'players': {}}
     
     # Video trends
@@ -346,13 +352,16 @@ def initialize_app():
 
     # Start background refresh
     def background_refresh():
-        # Do initial refresh in background thread
-        data_manager.refresh_data()
-        
-        # Then continue with regular refresh cycle
         while True:
-            time.sleep(REFRESH_INTERVAL)
-            data_manager.refresh_data()
+            if data_manager.should_refresh():
+                app.logger.info("Data is stale, starting refresh...")
+                data_manager.refresh_data()
+            else:
+                app.logger.info("Data is fresh, skipping refresh.")
+            
+            # Check every minute if we need to refresh
+            app.logger.info("Sleeping for 60 seconds before next check...")
+            time.sleep(60)
 
     refresh_thread = threading.Thread(target=background_refresh, daemon=True)
     refresh_thread.start()

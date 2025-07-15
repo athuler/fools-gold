@@ -3,8 +3,10 @@ import re
 import time
 import json
 import random
+import os
 from urllib.parse import urlparse
 import logging
+from googleapiclient.discovery import build
 
 logger = logging.getLogger(__name__)
 
@@ -27,23 +29,32 @@ class SocialMediaFetcher:
             # Extract video ID from URL
             video_id = url.split('/')[-1]
             
-            # For YouTube Shorts, we need to scrape the page
-            response = self.session.get(url, timeout=10)
-            response.raise_for_status()
+            # Get YouTube API key from environment
+            api_key = os.environ.get('YOUTUBE_API_KEY')
+            if not api_key:
+                logger.warning("YOUTUBE_API_KEY not found in environment, using fallback data")
+                return self._get_fallback_data()
             
-            html = response.text
+            # Build YouTube API client
+            youtube = build('youtube', 'v3', developerKey=api_key)
             
-            # Extract views using regex patterns
-            views_match = re.search(r'"viewCount":"(\d+)"', html)
-            views = int(views_match.group(1)) if views_match else 0
+            # Get video statistics
+            response = youtube.videos().list(
+                part='statistics',
+                id=video_id
+            ).execute()
             
-            # Extract likes (approximate from engagement)
-            likes_match = re.search(r'"likeCount":"(\d+)"', html)
-            likes = int(likes_match.group(1)) if likes_match else int(views * 0.05)  # Estimate 5% like rate
+            if not response['items']:
+                logger.warning(f"No video found for ID {video_id}")
+                return self._get_fallback_data()
             
-            # Extract comments
-            comments_match = re.search(r'"commentCount":"(\d+)"', html)
-            comments = int(comments_match.group(1)) if comments_match else int(views * 0.01)  # Estimate 1% comment rate
+            stats = response['items'][0]['statistics']
+            
+            views = int(stats.get('viewCount', 0))
+            likes = int(stats.get('likeCount', 0))
+            comments = int(stats.get('commentCount', 0))
+            
+            logger.info(f"Successfully fetched YouTube data for {video_id}: views={views}, likes={likes}, comments={comments}")
             
             return {
                 'views': views,

@@ -10,8 +10,17 @@ from social_fetcher import SocialMediaFetcher
 # Load environment variables
 load_dotenv()
 
+# gunicorn_logger = logging.getLogger('gunicorn.error')
 app = Flask(__name__)
-logging.basicConfig(level=logging.INFO)
+# app.logger.handlers = gunicorn_logger.handlers
+# app.logger.setLevel(level=logging.INFO)
+# logging.basicConfig(level=logging.INFO)
+
+if __name__ != '__main__':
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
+    app.logger.info("Set logging info.")
 
 # Configuration
 DATA_FILE = os.environ.get('DATA_FILE', 'engagement_data.json')
@@ -311,6 +320,8 @@ def api_trends():
 if __name__ == '__main__':
     app.logger.info("Loading data...")
     data_manager.load_data()
+
+    app.logger.info(f"Data refresh every {REFRESH_INTERVAL} seconds")
     
     # Start background refresh
     def background_refresh():

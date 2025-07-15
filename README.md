@@ -40,6 +40,8 @@ This is a one page website with the following sections:
     Displays the ranking of all players with a toggle to toggle between modes (combined, total views, ...)
 3. **Historical Trends**
     Display using two linegraphs how the scores of the videos and players have changed since July 15th, 2025.
+4. **Video Links**
+    A table-like view where users can click through to each video on each platform.
 
 ## Tech Stack
 

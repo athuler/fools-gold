@@ -251,6 +251,31 @@
             color: #ffffff;
         }
 
+        .episode-link {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+        }
+
+        .episode-link a {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+            color: #333;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .episode-link a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, #ffed4a 0%, #ffc947 100%);
+        }
+
         @media (max-width: 768px) {
             .grid {
                 grid-template-columns: 1fr;
@@ -596,6 +621,9 @@
                                 <a href="https://www.threads.com/@gamechangershow/post/DMG22Q7B_IV" target="_blank" class="platform-link threads"><i class="fa-brands fa-threads" style="color:#ffffff;"></i></a>
                             </div>
                         </div>
+                    </div>
+                    <div class="episode-link">
+                        <a href="https://www.dropout.tv/videos/fool-s-gold" target="_blank">Watch the full Game Changer Episode</a>
                     </div>
                 </div>
             </div>

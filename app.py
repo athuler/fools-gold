@@ -62,61 +62,71 @@ SOCIAL_URLS = {
         'threads': 'https://www.threads.com/@gamechangershow/post/DMGy2goOQSR',
         'instagram': 'https://www.instagram.com/gamechangershow/reel/DMGy8RuNDqI/',
         'tiktok': 'https://www.tiktok.com/@gamechangershow/video/7527078952171523341',
-        'youtube': 'https://www.youtube.com/shorts/UjHk90dxX20'
+        'youtube': 'https://www.youtube.com/shorts/UjHk90dxX20',
+        'tumblr': 'https://www.tumblr.com/gamechangershow/789089874490818560/no-kings-in-this-country-except-a-few-of-the'
     },
     'car_wash': {
         'threads': 'https://www.threads.com/@gamechangershow/post/DMG0NabtH7O',
         'instagram': 'https://www.instagram.com/gamechangershow/reel/DMG0OcPpSQO/',
         'tiktok': 'https://www.tiktok.com/@gamechangershow/video/7527082014449716494',
-        'youtube': 'https://www.youtube.com/shorts/HD5pyGbO_Is'
+        'youtube': 'https://www.youtube.com/shorts/HD5pyGbO_Is',
+        'tumblr': 'https://www.tumblr.com/gamechangershow/789090638794801152/whos-your-favorite-sexy-dropout-car-wash-team'
     },
     'glue': {
         'threads': 'https://www.threads.com/@gamechangershow/post/DMG0j6qCAjE',
         'instagram': 'https://www.instagram.com/gamechangershow/reel/DMG0jk2tbeR/',
         'tiktok': 'https://www.tiktok.com/@gamechangershow/video/7527082801120677133',
-        'youtube': 'https://www.youtube.com/shorts/gMpx4A2lRTE'
+        'youtube': 'https://www.youtube.com/shorts/gMpx4A2lRTE',
+        'tumblr': 'https://www.tumblr.com/gamechangershow/789090765137690624/youve-never-seen-anything-as-satisfying-as'
     },
     'cracks': {
         'threads': 'https://www.threads.com/@gamechangershow/post/DMG1A9LKqlQ',
         'instagram': 'https://www.instagram.com/gamechangershow/reel/DMG1BIPM41Z/',
         'tiktok': 'https://www.tiktok.com/@gamechangershow/video/7527083827689229582',
-        'youtube': 'https://www.youtube.com/shorts/1lnl0jYln8s'
+        'youtube': 'https://www.youtube.com/shorts/1lnl0jYln8s',
+        'tumblr': 'https://www.tumblr.com/gamechangershow/789091008304578560/if-you-love-hearing-oddly-satisfying-cracks-at-the'
     },
     'dimension_20': {
         'threads': 'https://www.threads.com/@gamechangershow/post/DMG1HnRz9CN',
         'instagram': 'https://www.instagram.com/gamechangershow/reel/DMGzkMNNMXg/',
         'tiktok': 'https://www.tiktok.com/@gamechangershow/video/7527080453610704183',
-        'youtube': 'https://www.youtube.com/shorts/5feqZBLXrMg'
+        'youtube': 'https://www.youtube.com/shorts/5feqZBLXrMg',
+        'tumblr': 'https://www.tumblr.com/gamechangershow/789090265340280832/presenting-the-brand-new-season-dimension-20'
     },
     'puppy_bowl': {
         'threads': 'https://www.threads.com/@gamechangershow/post/DMG1eOyqxs2',
         'instagram': 'https://www.instagram.com/gamechangershow/reel/DMG1d62Mhmf/',
         'tiktok': 'https://www.tiktok.com/@gamechangershow/video/7527084871580142861',
-        'youtube': 'https://www.youtube.com/shorts/aagwlycxv_k'
+        'youtube': 'https://www.youtube.com/shorts/aagwlycxv_k',
+        'tumblr': 'https://www.tumblr.com/gamechangershow/789091260709355520/forget-having-to-choose-between-the-big-game-and'
     },
     'breast_milk': {
         'threads': 'https://www.threads.com/@gamechangershow/post/DMG10FKBp3C',
         'instagram': 'https://www.instagram.com/gamechangershow/reel/DMG11avO8qa/',
         'tiktok': 'https://www.tiktok.com/@gamechangershow/video/7527085610322890039',
-        'youtube': 'https://www.youtube.com/shorts/nfwmaVlp_hY'
+        'youtube': 'https://www.youtube.com/shorts/nfwmaVlp_hY',
+        'tumblr': 'https://www.tumblr.com/gamechangershow/789091518113792000/can-jordan-correctly-identify-three-of-their'
     },
     'hair': {
         'threads': 'https://www.threads.com/@gamechangershow/post/DMG2C-6PSo4',
         'instagram': 'https://www.instagram.com/gamechangershow/reel/DMG2ELMvZdg/',
         'tiktok': 'https://www.tiktok.com/@gamechangershow/video/7527086113614318862',
-        'youtube': 'https://www.youtube.com/shorts/wQVIfuNIc9I'
+        'youtube': 'https://www.youtube.com/shorts/wQVIfuNIc9I',
+        'tumblr': 'https://www.tumblr.com/gamechangershow/789091640471076864/now-everywhere-erika-goes-a-roast-of-sam-reich'
     },
     'holes': {
         'threads': 'https://www.threads.com/@gamechangershow/post/DMG2RwdtsH3',
         'instagram': 'https://www.instagram.com/gamechangershow/reel/DMG2SXRMojo/',
         'tiktok': 'https://www.tiktok.com/@gamechangershow/video/7527086642415422734',
-        'youtube': 'https://www.youtube.com/shorts/Wm8SMsmWCts'
+        'youtube': 'https://www.youtube.com/shorts/Wm8SMsmWCts',
+        'tumblr': 'https://www.tumblr.com/gamechangershow/789091767963336704/the-lady-said-3000-worth-of-animated-buttholes'
     },
     'brennan': {
         'threads': 'https://www.threads.com/@gamechangershow/post/DMG22Q7B_IV',
         'instagram': 'https://www.instagram.com/gamechangershow/reel/DMG24Zjyg1j/',
         'tiktok': 'https://www.tiktok.com/@gamechangershow/video/7527087942339267895',
-        'youtube': 'https://www.youtube.com/shorts/oO4kgmYivoQ'
+        'youtube': 'https://www.youtube.com/shorts/oO4kgmYivoQ',
+        'tumblr': 'https://www.tumblr.com/gamechangershow/789092023188733952/brennans-announcement'
     }
 }
 

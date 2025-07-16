@@ -488,6 +488,78 @@ class SocialMediaFetcher:
             logger.error(f"Error fetching Threads data for {url}: {e}")
             return self._get_threads_fallback_data()
     
+    def fetch_tumblr_data(self, url):
+        try:
+            # Extract blog name and post ID from Tumblr URL
+            # URL format: https://www.tumblr.com/{blog_name}/{numerical_post_id}/text-slug-here
+            url_parts = url.split('/')
+            if len(url_parts) < 5:
+                logger.error(f"Invalid Tumblr URL format: {url}")
+                return self._get_fallback_data()
+            
+            blog_name = url_parts[3]
+            post_id = url_parts[4]  # This is the numerical ID
+            
+            # Debug logging to verify we're extracting the right parts
+            logger.debug(f"Tumblr URL parts: {url_parts}")
+            logger.debug(f"Extracted blog_name: {blog_name}, post_id: {post_id}")
+            
+            # Get Tumblr API key from environment
+            api_key = os.environ.get('TUMBLR_API_KEY')
+            
+            if not api_key:
+                logger.warning("Tumblr API key not found in environment, using fallback data")
+                return self._get_fallback_data()
+            
+            # Make API request to get specific post data using /posts endpoint
+            api_url = f"https://api.tumblr.com/v2/blog/{blog_name}/posts"
+            params = {
+                'api_key': api_key,
+                'id': post_id
+            }
+            
+            response = requests.get(api_url, params=params, timeout=15)
+            response.raise_for_status()
+            
+            data = response.json()
+            
+            if 'response' not in data or 'posts' not in data['response'] or not data['response']['posts']:
+                logger.warning(f"No post data found for Tumblr post {post_id}")
+                return self._get_fallback_data()
+            
+            post = data['response']['posts'][0]
+            
+            # Extract engagement metrics
+            note_count = post.get('note_count', 0)  # Total notes (likes + reblogs + replies)
+            
+            # Tumblr doesn't provide detailed breakdowns in public API
+            # So we'll estimate based on typical Tumblr engagement patterns
+            # Tumblr engagement typically: ~60% likes, ~30% reblogs, ~10% replies
+            likes = int(note_count * 0.6)
+            reblogs = int(note_count * 0.3)  # Reblogs are like "shares" on other platforms
+            replies = int(note_count * 0.1)  # Comments/replies
+            
+            # For consistency with other platforms, we'll use:
+            # views = note_count (total engagement as a proxy for reach)
+            # likes = estimated likes
+            # comments = replies + reblogs (both are forms of engagement)
+            
+            views = note_count
+            total_likes = likes
+            comments = replies + reblogs
+            
+            logger.info(f"Successfully fetched Tumblr data for {blog_name}/{post_id}: views={views}, likes={total_likes}, comments={comments}, total_notes={note_count}")
+            
+            return {
+                'views': views,
+                'likes': total_likes,
+                'comments': comments
+            }
+            
+        except Exception as e:
+            logger.error(f"Error fetching Tumblr data for {url}: {e}")
+            return self._get_fallback_data()
+    
     def _rate_limit(self):
         """Add delay between requests to avoid getting blocked"""
         current_time = time.time()
@@ -516,6 +588,8 @@ class SocialMediaFetcher:
                 return self.fetch_tiktok_data(url)
             elif platform == 'threads':
                 return self.fetch_threads_data(url)
+            elif platform == 'tumblr':
+                return self.fetch_tumblr_data(url)
             else:
                 return self._get_fallback_data()
                 

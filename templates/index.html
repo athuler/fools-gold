@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fool's Gold - Scoring The Game Changer Episode</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8238BB67Y"></script>
@@ -302,15 +303,22 @@
 
         async function fetchData() {
             try {
+                console.log('Fetching data...');
                 const [videosResponse, playersResponse, trendsResponse] = await Promise.all([
                     fetch('/api/videos'),
                     fetch('/api/players'),
                     fetch('/api/trends')
                 ]);
 
+                if (!videosResponse.ok) throw new Error(`Videos API failed: ${videosResponse.status}`);
+                if (!playersResponse.ok) throw new Error(`Players API failed: ${playersResponse.status}`);
+                if (!trendsResponse.ok) throw new Error(`Trends API failed: ${trendsResponse.status}`);
+
                 videoData = await videosResponse.json();
                 playerData = await playersResponse.json();
                 trendsData = await trendsResponse.json();
+
+                console.log('Data fetched successfully:', { videoData, playerData, trendsData });
 
                 updateVideoRankings();
                 updatePlayerRankings();
@@ -419,10 +427,17 @@
                 videoChart.destroy();
             }
 
+            console.log('Video trends data:', trendsData.videos);
+
+            if (!trendsData.videos || Object.keys(trendsData.videos).length === 0) {
+                console.error('No video trends data available');
+                return;
+            }
+
             const datasets = Object.values(trendsData.videos || {}).map((video, index) => ({
                 label: video.name,
                 data: video.data.map(point => ({
-                    x: new Date(point.timestamp * 1000),
+                    x: point.timestamp,
                     y: point[trendMode]
                 })),
                 borderColor: `hsl(${index * 360 / Object.keys(trendsData.videos || {}).length}, 70%, 50%)`,
@@ -431,30 +446,41 @@
                 tension: 0.4
             }));
 
-            videoChart = new Chart(ctx, {
-                type: 'line',
-                data: { datasets },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            type: 'time',
-                            time: {
-                                unit: 'hour'
+            console.log('Chart datasets:', datasets);
+
+            try {
+                videoChart = new Chart(ctx, {
+                    type: 'line',
+                    data: { datasets },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                type: 'linear',
+                                position: 'bottom',
+                                ticks: {
+                                    callback: function(value) {
+                                        // Convert timestamp to readable format
+                                        const date = new Date(value * 1000);
+                                        return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                                    }
+                                }
+                            },
+                            y: {
+                                beginAtZero: true
                             }
                         },
-                        y: {
-                            beginAtZero: true
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            position: 'top'
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            }
                         }
                     }
-                }
-            });
+                });
+            } catch (error) {
+                console.error('Error creating video trends chart:', error);
+            }
         }
 
         function updatePlayerTrendsChart() {
@@ -464,10 +490,17 @@
                 playerChart.destroy();
             }
 
+            console.log('Player trends data:', trendsData.players);
+
+            if (!trendsData.players || Object.keys(trendsData.players).length === 0) {
+                console.error('No player trends data available');
+                return;
+            }
+
             const datasets = Object.values(trendsData.players || {}).map((player, index) => ({
                 label: player.name,
                 data: player.data.map(point => ({
-                    x: new Date(point.timestamp * 1000),
+                    x: point.timestamp,
                     y: point[trendMode]
                 })),
                 borderColor: `hsl(${index * 120}, 70%, 50%)`,
@@ -476,30 +509,41 @@
                 tension: 0.4
             }));
 
-            playerChart = new Chart(ctx, {
-                type: 'line',
-                data: { datasets },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            type: 'time',
-                            time: {
-                                unit: 'hour'
+            console.log('Player chart datasets:', datasets);
+
+            try {
+                playerChart = new Chart(ctx, {
+                    type: 'line',
+                    data: { datasets },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                type: 'linear',
+                                position: 'bottom',
+                                ticks: {
+                                    callback: function(value) {
+                                        // Convert timestamp to readable format
+                                        const date = new Date(value * 1000);
+                                        return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                                    }
+                                }
+                            },
+                            y: {
+                                beginAtZero: true
                             }
                         },
-                        y: {
-                            beginAtZero: true
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            position: 'top'
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            }
                         }
                     }
-                }
-            });
+                });
+            } catch (error) {
+                console.error('Error creating player trends chart:', error);
+            }
         }
 
         // Initialize

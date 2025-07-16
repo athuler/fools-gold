@@ -560,6 +560,92 @@ class SocialMediaFetcher:
             logger.error(f"Error fetching Tumblr data for {url}: {e}")
             return self._get_fallback_data()
     
+    def fetch_bluesky_data(self, url):
+        try:
+            # Extract the DID and rkey from the Bluesky URL
+            # URL format: https://bsky.app/profile/{handle}/post/{rkey}
+            url_parts = url.split('/')
+            if len(url_parts) < 6:
+                logger.error(f"Invalid Bluesky URL format: {url}")
+                return self._get_fallback_data()
+            
+            handle = url_parts[4]
+            rkey = url_parts[6]
+            
+            # Get Bluesky API credentials from environment
+            bluesky_username = os.environ.get('BLUESKY_USERNAME')
+            bluesky_password = os.environ.get('BLUESKY_PASSWORD')
+            
+            if not bluesky_username or not bluesky_password:
+                logger.warning("Bluesky credentials not found in environment, using fallback data")
+                return self._get_fallback_data()
+            
+            # Step 1: Create session with Bluesky
+            session_url = "https://bsky.social/xrpc/com.atproto.server.createSession"
+            session_data = {
+                "identifier": bluesky_username,
+                "password": bluesky_password
+            }
+            
+            session_response = requests.post(session_url, json=session_data, timeout=15)
+            session_response.raise_for_status()
+            session_info = session_response.json()
+            
+            access_token = session_info['accessJwt']
+            
+            # Step 2: Resolve handle to DID if needed
+            if not handle.startswith('did:'):
+                resolve_url = f"https://bsky.social/xrpc/com.atproto.identity.resolveHandle"
+                resolve_params = {"handle": handle}
+                resolve_response = requests.get(resolve_url, params=resolve_params, timeout=15)
+                resolve_response.raise_for_status()
+                handle_did = resolve_response.json()['did']
+            else:
+                handle_did = handle
+            
+            # Step 3: Get the post data
+            post_uri = f"at://{handle_did}/app.bsky.feed.post/{rkey}"
+            post_url = "https://bsky.social/xrpc/app.bsky.feed.getPostThread"
+            post_params = {"uri": post_uri}
+            
+            headers = {
+                "Authorization": f"Bearer {access_token}",
+                "Content-Type": "application/json"
+            }
+            
+            post_response = requests.get(post_url, params=post_params, headers=headers, timeout=15)
+            post_response.raise_for_status()
+            post_data = post_response.json()
+            
+            # Extract engagement metrics
+            thread = post_data.get('thread', {})
+            post = thread.get('post', {})
+            
+            like_count = post.get('likeCount', 0)
+            reply_count = post.get('replyCount', 0)
+            repost_count = post.get('repostCount', 0)
+            
+            # For Bluesky, we'll use:
+            # views = like_count + reply_count + repost_count (total engagement as proxy for reach)
+            # likes = like_count
+            # comments = reply_count + repost_count (both are forms of engagement)
+            
+            views = like_count + reply_count + repost_count
+            likes = like_count
+            comments = reply_count + repost_count
+            
+            logger.info(f"Successfully fetched Bluesky data for {handle}/{rkey}: views={views}, likes={likes}, comments={comments}")
+            
+            return {
+                'views': views,
+                'likes': likes,
+                'comments': comments
+            }
+            
+        except Exception as e:
+            logger.error(f"Error fetching Bluesky data for {url}: {e}")
+            return self._get_fallback_data()
+    
     def _rate_limit(self):
         """Add delay between requests to avoid getting blocked"""
         current_time = time.time()
@@ -590,6 +676,8 @@ class SocialMediaFetcher:
                 return self.fetch_threads_data(url)
             elif platform == 'tumblr':
                 return self.fetch_tumblr_data(url)
+            elif platform == 'bluesky':
+                return self.fetch_bluesky_data(url)
             else:
                 return self._get_fallback_data()
                 

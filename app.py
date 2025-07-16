@@ -63,70 +63,80 @@ SOCIAL_URLS = {
         'instagram': 'https://www.instagram.com/gamechangershow/reel/DMGy8RuNDqI/',
         'tiktok': 'https://www.tiktok.com/@gamechangershow/video/7527078952171523341',
         'youtube': 'https://www.youtube.com/shorts/UjHk90dxX20',
-        'tumblr': 'https://www.tumblr.com/gamechangershow/789089874490818560/no-kings-in-this-country-except-a-few-of-the'
+        'tumblr': 'https://www.tumblr.com/gamechangershow/789089874490818560/no-kings-in-this-country-except-a-few-of-the',
+        'bluesky': 'https://bsky.app/profile/gamechangershow.bsky.social/post/3ltxj57bfqn2e'
     },
     'car_wash': {
         'threads': 'https://www.threads.com/@gamechangershow/post/DMG0NabtH7O',
         'instagram': 'https://www.instagram.com/gamechangershow/reel/DMG0OcPpSQO/',
         'tiktok': 'https://www.tiktok.com/@gamechangershow/video/7527082014449716494',
         'youtube': 'https://www.youtube.com/shorts/HD5pyGbO_Is',
-        'tumblr': 'https://www.tumblr.com/gamechangershow/789090638794801152/whos-your-favorite-sexy-dropout-car-wash-team'
+        'tumblr': 'https://www.tumblr.com/gamechangershow/789090638794801152/whos-your-favorite-sexy-dropout-car-wash-team',
+        'bluesky': 'https://bsky.app/profile/gamechangershow.bsky.social/post/3ltxjslm3zs2n'
     },
     'glue': {
         'threads': 'https://www.threads.com/@gamechangershow/post/DMG0j6qCAjE',
         'instagram': 'https://www.instagram.com/gamechangershow/reel/DMG0jk2tbeR/',
         'tiktok': 'https://www.tiktok.com/@gamechangershow/video/7527082801120677133',
         'youtube': 'https://www.youtube.com/shorts/gMpx4A2lRTE',
-        'tumblr': 'https://www.tumblr.com/gamechangershow/789090765137690624/youve-never-seen-anything-as-satisfying-as'
+        'tumblr': 'https://www.tumblr.com/gamechangershow/789090765137690624/youve-never-seen-anything-as-satisfying-as',
+        'bluesky': 'https://bsky.app/profile/gamechangershow.bsky.social/post/3ltxjxzocpf2g'
     },
     'cracks': {
         'threads': 'https://www.threads.com/@gamechangershow/post/DMG1A9LKqlQ',
         'instagram': 'https://www.instagram.com/gamechangershow/reel/DMG1BIPM41Z/',
         'tiktok': 'https://www.tiktok.com/@gamechangershow/video/7527083827689229582',
         'youtube': 'https://www.youtube.com/shorts/1lnl0jYln8s',
-        'tumblr': 'https://www.tumblr.com/gamechangershow/789091008304578560/if-you-love-hearing-oddly-satisfying-cracks-at-the'
+        'tumblr': 'https://www.tumblr.com/gamechangershow/789091008304578560/if-you-love-hearing-oddly-satisfying-cracks-at-the',
+        'bluesky': 'https://bsky.app/profile/gamechangershow.bsky.social/post/3ltxk755bhn2g'
     },
     'dimension_20': {
         'threads': 'https://www.threads.com/@gamechangershow/post/DMG1HnRz9CN',
         'instagram': 'https://www.instagram.com/gamechangershow/reel/DMGzkMNNMXg/',
         'tiktok': 'https://www.tiktok.com/@gamechangershow/video/7527080453610704183',
         'youtube': 'https://www.youtube.com/shorts/5feqZBLXrMg',
-        'tumblr': 'https://www.tumblr.com/gamechangershow/789090265340280832/presenting-the-brand-new-season-dimension-20'
+        'tumblr': 'https://www.tumblr.com/gamechangershow/789090265340280832/presenting-the-brand-new-season-dimension-20',
+        'bluesky': 'https://bsky.app/profile/gamechangershow.bsky.social/post/3ltxjhyigpf2g'
     },
     'puppy_bowl': {
         'threads': 'https://www.threads.com/@gamechangershow/post/DMG1eOyqxs2',
         'instagram': 'https://www.instagram.com/gamechangershow/reel/DMG1d62Mhmf/',
         'tiktok': 'https://www.tiktok.com/@gamechangershow/video/7527084871580142861',
         'youtube': 'https://www.youtube.com/shorts/aagwlycxv_k',
-        'tumblr': 'https://www.tumblr.com/gamechangershow/789091260709355520/forget-having-to-choose-between-the-big-game-and'
+        'tumblr': 'https://www.tumblr.com/gamechangershow/789091260709355520/forget-having-to-choose-between-the-big-game-and',
+        'bluesky': 'https://bsky.app/profile/gamechangershow.bsky.social/post/3ltxkgbc5ff2g'
     },
     'breast_milk': {
         'threads': 'https://www.threads.com/@gamechangershow/post/DMG10FKBp3C',
         'instagram': 'https://www.instagram.com/gamechangershow/reel/DMG11avO8qa/',
         'tiktok': 'https://www.tiktok.com/@gamechangershow/video/7527085610322890039',
         'youtube': 'https://www.youtube.com/shorts/nfwmaVlp_hY',
-        'tumblr': 'https://www.tumblr.com/gamechangershow/789091518113792000/can-jordan-correctly-identify-three-of-their'
+        'tumblr': 'https://www.tumblr.com/gamechangershow/789091518113792000/can-jordan-correctly-identify-three-of-their',
+        'bluesky': 'https://bsky.app/profile/gamechangershow.bsky.social/post/3ltxklo4bi62h'
     },
     'hair': {
         'threads': 'https://www.threads.com/@gamechangershow/post/DMG2C-6PSo4',
         'instagram': 'https://www.instagram.com/gamechangershow/reel/DMG2ELMvZdg/',
         'tiktok': 'https://www.tiktok.com/@gamechangershow/video/7527086113614318862',
         'youtube': 'https://www.youtube.com/shorts/wQVIfuNIc9I',
-        'tumblr': 'https://www.tumblr.com/gamechangershow/789091640471076864/now-everywhere-erika-goes-a-roast-of-sam-reich'
+        'tumblr': 'https://www.tumblr.com/gamechangershow/789091640471076864/now-everywhere-erika-goes-a-roast-of-sam-reich',
+        'bluesky': 'https://bsky.app/profile/gamechangershow.bsky.social/post/3ltxkpappc72p'
     },
     'holes': {
         'threads': 'https://www.threads.com/@gamechangershow/post/DMG2RwdtsH3',
         'instagram': 'https://www.instagram.com/gamechangershow/reel/DMG2SXRMojo/',
         'tiktok': 'https://www.tiktok.com/@gamechangershow/video/7527086642415422734',
         'youtube': 'https://www.youtube.com/shorts/Wm8SMsmWCts',
-        'tumblr': 'https://www.tumblr.com/gamechangershow/789091767963336704/the-lady-said-3000-worth-of-animated-buttholes'
+        'tumblr': 'https://www.tumblr.com/gamechangershow/789091767963336704/the-lady-said-3000-worth-of-animated-buttholes',
+        'bluesky': 'https://bsky.app/profile/gamechangershow.bsky.social/post/3ltxksvy2u52g'
     },
     'brennan': {
         'threads': 'https://www.threads.com/@gamechangershow/post/DMG22Q7B_IV',
         'instagram': 'https://www.instagram.com/gamechangershow/reel/DMG24Zjyg1j/',
         'tiktok': 'https://www.tiktok.com/@gamechangershow/video/7527087942339267895',
         'youtube': 'https://www.youtube.com/shorts/oO4kgmYivoQ',
-        'tumblr': 'https://www.tumblr.com/gamechangershow/789092023188733952/brennans-announcement'
+        'tumblr': 'https://www.tumblr.com/gamechangershow/789092023188733952/brennans-announcement',
+        'bluesky': 'https://bsky.app/profile/gamechangershow.bsky.social/post/3ltxl3sjqbt2z'
     }
 }
 
@@ -249,7 +259,10 @@ def get_latest_video_scores():
                 'comments_instagram': latest.get('comments_instagram', 0),
                 'views_threads': latest.get('views_threads', 0),
                 'likes_threads': latest.get('likes_threads', 0),
-                'comments_threads': latest.get('comments_threads', 0)
+                'comments_threads': latest.get('comments_threads', 0),
+                'views_bluesky': latest.get('views_bluesky', 0),
+                'likes_bluesky': latest.get('likes_bluesky', 0),
+                'comments_bluesky': latest.get('comments_bluesky', 0)
             }
     return scores
 
@@ -328,7 +341,10 @@ def api_trends():
                     'comments_instagram': point.get('comments_instagram', 0),
                     'views_threads': point.get('views_threads', 0),
                     'likes_threads': point.get('likes_threads', 0),
-                    'comments_threads': point.get('comments_threads', 0)
+                    'comments_threads': point.get('comments_threads', 0),
+                    'views_bluesky': point.get('views_bluesky', 0),
+                    'likes_bluesky': point.get('likes_bluesky', 0),
+                    'comments_bluesky': point.get('comments_bluesky', 0)
                 } for point in video_data]
             }
     

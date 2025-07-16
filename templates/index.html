@@ -350,6 +350,10 @@
                                 <span class="toggle-label">Include Tumblr</span>
                             </label>
                             <label class="toggle-option">
+                                <input type="checkbox" id="include-bluesky" onchange="togglePlatform('bluesky', this.checked)">
+                                <span class="toggle-label">Include Bluesky</span>
+                            </label>
+                            <label class="toggle-option">
                                 <input type="checkbox" id="include-instagram" onchange="togglePlatform('instagram', this.checked)">
                                 <span class="toggle-label">Include Instagram</span>
                             </label>
@@ -469,7 +473,8 @@
                                       video.hasOwnProperty('views_tiktok') || 
                                       video.hasOwnProperty('views_tumblr') || 
                                       video.hasOwnProperty('views_instagram') || 
-                                      video.hasOwnProperty('views_threads');
+                                      video.hasOwnProperty('views_threads') || 
+                                      video.hasOwnProperty('views_bluesky');
                 
                 if (!hasPlatformData) {
                     // If platform-specific data is not available, skip recalculation
@@ -482,7 +487,7 @@
                 let totalComments = 0;
                 
                 // Sum only from non-excluded platforms
-                const platforms = ['youtube', 'tiktok', 'tumblr', 'instagram', 'threads'];
+                const platforms = ['youtube', 'tiktok', 'tumblr', 'instagram', 'threads', 'bluesky'];
                 for (const platform of platforms) {
                     if (!excludedPlatforms.includes(platform)) {
                         totalViews += video[`views_${platform}`] || 0;
@@ -554,7 +559,7 @@
             // Recalculate trends data based on current platform settings
             if (!trendsData.videos) return;
             
-            const platforms = ['youtube', 'tiktok', 'tumblr', 'instagram', 'threads'];
+            const platforms = ['youtube', 'tiktok', 'tumblr', 'bluesky', 'instagram', 'threads'];
             
             // Recalculate video trends
             for (const [videoId, video] of Object.entries(trendsData.videos)) {
@@ -564,7 +569,8 @@
                                           point.hasOwnProperty('views_tiktok') || 
                                           point.hasOwnProperty('views_tumblr') || 
                                           point.hasOwnProperty('views_instagram') || 
-                                          point.hasOwnProperty('views_threads');
+                                          point.hasOwnProperty('views_threads') || 
+                                          point.hasOwnProperty('views_bluesky');
                     
                     if (!hasPlatformData) {
                         // If platform-specific data is not available, skip recalculation
@@ -843,7 +849,7 @@
         // Initialize
         function initializeSettings() {
             // Set checkbox states based on default excluded platforms
-            const allPlatforms = ['youtube', 'tiktok', 'tumblr', 'instagram', 'threads'];
+            const allPlatforms = ['youtube', 'tiktok', 'tumblr', 'bluesky', 'instagram', 'threads'];
             
             for (const platform of allPlatforms) {
                 const checkbox = document.getElementById(`include-${platform}`);

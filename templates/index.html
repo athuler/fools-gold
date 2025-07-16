@@ -217,6 +217,59 @@
             width: 20px;
             height: 20px;
         }
+
+        .settings-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .setting-group h3 {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 1.2em;
+        }
+
+        .setting-description {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .toggle-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .toggle-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .toggle-option:hover {
+            background: #e9ecef;
+        }
+
+        .toggle-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .toggle-label {
+            font-weight: 500;
+            color: #333;
+            user-select: none;
+        }
     </style>
 </head>
 <body>
@@ -276,6 +329,38 @@
                     </div>
                 </div>
             </div>
+
+            <div class="section">
+                <h2>⚙️ Settings</h2>
+                <div class="settings-container">
+                    <div class="setting-group">
+                        <h3>Platform Inclusion</h3>
+                        <p class="setting-description">Toggle which platforms should be included in the metrics calculations. All platforms except Instagram and Threads are enabled by default (Instagram and Threads are disabled due to less accurate data).</p>
+                        <div class="toggle-options">
+                            <label class="toggle-option">
+                                <input type="checkbox" id="include-youtube" onchange="togglePlatform('youtube', this.checked)">
+                                <span class="toggle-label">Include YouTube</span>
+                            </label>
+                            <label class="toggle-option">
+                                <input type="checkbox" id="include-tiktok" onchange="togglePlatform('tiktok', this.checked)">
+                                <span class="toggle-label">Include TikTok</span>
+                            </label>
+                            <label class="toggle-option">
+                                <input type="checkbox" id="include-tumblr" onchange="togglePlatform('tumblr', this.checked)">
+                                <span class="toggle-label">Include Tumblr</span>
+                            </label>
+                            <label class="toggle-option">
+                                <input type="checkbox" id="include-instagram" onchange="togglePlatform('instagram', this.checked)">
+                                <span class="toggle-label">Include Instagram</span>
+                            </label>
+                            <label class="toggle-option">
+                                <input type="checkbox" id="include-threads" onchange="togglePlatform('threads', this.checked)">
+                                <span class="toggle-label">Include Threads</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <footer>
@@ -300,6 +385,7 @@
         let trendMode = 'combined';
         let videoChart = null;
         let playerChart = null;
+        let excludedPlatforms = ['instagram', 'threads']; // Default to excluding these platforms
 
         async function fetchData() {
             try {
@@ -320,9 +406,8 @@
 
                 console.log('Data fetched successfully:', { videoData, playerData, trendsData });
 
-                updateVideoRankings();
-                updatePlayerRankings();
-                updateTrendsCharts();
+                // Apply default platform exclusions
+                recalculateMetrics();
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -347,6 +432,215 @@
             document.querySelectorAll('.section:nth-child(3) .toggle-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             updateTrendsCharts();
+        }
+
+        function togglePlatform(platform, include) {
+            if (include) {
+                // Remove from excluded platforms
+                excludedPlatforms = excludedPlatforms.filter(p => p !== platform);
+            } else {
+                // Add to excluded platforms
+                if (!excludedPlatforms.includes(platform)) {
+                    excludedPlatforms.push(platform);
+                }
+            }
+            
+            // Recalculate all metrics with new platform settings
+            recalculateMetrics();
+        }
+
+        function recalculateMetrics() {
+            // Recalculate video and player data based on current platform settings
+            recalculateVideoMetrics();
+            recalculatePlayerMetrics();
+            recalculateTrendsMetrics();
+            
+            // Update all displays
+            updateVideoRankings();
+            updatePlayerRankings();
+            updateTrendsCharts();
+        }
+
+        function recalculateVideoMetrics() {
+            // Recalculate video metrics
+            for (const [videoId, video] of Object.entries(videoData)) {
+                // Check if platform-specific data is available
+                const hasPlatformData = video.hasOwnProperty('views_youtube') || 
+                                      video.hasOwnProperty('views_tiktok') || 
+                                      video.hasOwnProperty('views_tumblr') || 
+                                      video.hasOwnProperty('views_instagram') || 
+                                      video.hasOwnProperty('views_threads');
+                
+                if (!hasPlatformData) {
+                    // If platform-specific data is not available, skip recalculation
+                    // This handles backwards compatibility with older API responses
+                    continue;
+                }
+                
+                let totalViews = 0;
+                let totalLikes = 0;
+                let totalComments = 0;
+                
+                // Sum only from non-excluded platforms
+                const platforms = ['youtube', 'tiktok', 'tumblr', 'instagram', 'threads'];
+                for (const platform of platforms) {
+                    if (!excludedPlatforms.includes(platform)) {
+                        totalViews += video[`views_${platform}`] || 0;
+                        totalLikes += video[`likes_${platform}`] || 0;
+                        totalComments += video[`comments_${platform}`] || 0;
+                    }
+                }
+                
+                videoData[videoId] = {
+                    ...video,
+                    views: totalViews,
+                    likes: totalLikes,
+                    comments: totalComments,
+                    combined: totalViews + totalLikes + totalComments
+                };
+            }
+        }
+
+        function recalculatePlayerMetrics() {
+            // Recalculate player metrics based on updated video metrics
+            const playerWeights = {
+                'Trapp': [
+                    { video: 'glue', weight: 1.0 },
+                    { video: 'cracks', weight: 1.0 },
+                    { video: 'puppy_bowl', weight: 0.5 },
+                    { video: 'holes', weight: 0.5 },
+                    { video: 'brennan', weight: 1/3 }
+                ],
+                'Jordan': [
+                    { video: 'kings', weight: 1.0 },
+                    { video: 'hair', weight: 1.0 },
+                    { video: 'car_wash', weight: 0.5 },
+                    { video: 'breast_milk', weight: 1.0 },
+                    { video: 'brennan', weight: 1/3 }
+                ],
+                'Rekha': [
+                    { video: 'dimension_20', weight: 1.0 },
+                    { video: 'car_wash', weight: 0.5 },
+                    { video: 'puppy_bowl', weight: 0.5 },
+                    { video: 'holes', weight: 0.5 },
+                    { video: 'brennan', weight: 1/3 }
+                ]
+            };
+            
+            for (const [player, weights] of Object.entries(playerWeights)) {
+                let totalViews = 0;
+                let totalLikes = 0;
+                let totalComments = 0;
+                
+                for (const { video, weight } of weights) {
+                    if (videoData[video]) {
+                        totalViews += videoData[video].views * weight;
+                        totalLikes += videoData[video].likes * weight;
+                        totalComments += videoData[video].comments * weight;
+                    }
+                }
+                
+                playerData[player] = {
+                    name: player,
+                    views: Math.round(totalViews),
+                    likes: Math.round(totalLikes),
+                    comments: Math.round(totalComments),
+                    combined: Math.round(totalViews + totalLikes + totalComments)
+                };
+            }
+        }
+
+        function recalculateTrendsMetrics() {
+            // Recalculate trends data based on current platform settings
+            if (!trendsData.videos) return;
+            
+            const platforms = ['youtube', 'tiktok', 'tumblr', 'instagram', 'threads'];
+            
+            // Recalculate video trends
+            for (const [videoId, video] of Object.entries(trendsData.videos)) {
+                for (const point of video.data) {
+                    // Check if platform-specific data is available
+                    const hasPlatformData = point.hasOwnProperty('views_youtube') || 
+                                          point.hasOwnProperty('views_tiktok') || 
+                                          point.hasOwnProperty('views_tumblr') || 
+                                          point.hasOwnProperty('views_instagram') || 
+                                          point.hasOwnProperty('views_threads');
+                    
+                    if (!hasPlatformData) {
+                        // If platform-specific data is not available, skip recalculation
+                        continue;
+                    }
+                    
+                    let totalViews = 0;
+                    let totalLikes = 0;
+                    let totalComments = 0;
+                    
+                    for (const platform of platforms) {
+                        if (!excludedPlatforms.includes(platform)) {
+                            totalViews += point[`views_${platform}`] || 0;
+                            totalLikes += point[`likes_${platform}`] || 0;
+                            totalComments += point[`comments_${platform}`] || 0;
+                        }
+                    }
+                    
+                    point.views = totalViews;
+                    point.likes = totalLikes;
+                    point.comments = totalComments;
+                    point.combined = totalViews + totalLikes + totalComments;
+                }
+            }
+            
+            // Recalculate player trends based on updated video trends
+            const playerWeights = {
+                'Trapp': [
+                    { video: 'glue', weight: 1.0 },
+                    { video: 'cracks', weight: 1.0 },
+                    { video: 'puppy_bowl', weight: 0.5 },
+                    { video: 'holes', weight: 0.5 },
+                    { video: 'brennan', weight: 1/3 }
+                ],
+                'Jordan': [
+                    { video: 'kings', weight: 1.0 },
+                    { video: 'hair', weight: 1.0 },
+                    { video: 'car_wash', weight: 0.5 },
+                    { video: 'breast_milk', weight: 1.0 },
+                    { video: 'brennan', weight: 1/3 }
+                ],
+                'Rekha': [
+                    { video: 'dimension_20', weight: 1.0 },
+                    { video: 'car_wash', weight: 0.5 },
+                    { video: 'puppy_bowl', weight: 0.5 },
+                    { video: 'holes', weight: 0.5 },
+                    { video: 'brennan', weight: 1/3 }
+                ]
+            };
+            
+            for (const [player, weights] of Object.entries(playerWeights)) {
+                if (!trendsData.players[player]) continue;
+                
+                for (const point of trendsData.players[player].data) {
+                    let totalViews = 0;
+                    let totalLikes = 0;
+                    let totalComments = 0;
+                    
+                    for (const { video, weight } of weights) {
+                        const videoTrend = trendsData.videos[video];
+                        if (videoTrend) {
+                            const videoPoint = videoTrend.data.find(p => p.timestamp === point.timestamp);
+                            if (videoPoint) {
+                                totalViews += videoPoint.views * weight;
+                                totalLikes += videoPoint.likes * weight;
+                                totalComments += videoPoint.comments * weight;
+                            }
+                        }
+                    }
+                    
+                    point.views = Math.round(totalViews);
+                    point.likes = Math.round(totalLikes);
+                    point.comments = Math.round(totalComments);
+                    point.combined = Math.round(totalViews + totalLikes + totalComments);
+                }
+            }
         }
 
         function updateVideoRankings() {
@@ -547,6 +841,20 @@
         }
 
         // Initialize
+        function initializeSettings() {
+            // Set checkbox states based on default excluded platforms
+            const allPlatforms = ['youtube', 'tiktok', 'tumblr', 'instagram', 'threads'];
+            
+            for (const platform of allPlatforms) {
+                const checkbox = document.getElementById(`include-${platform}`);
+                if (checkbox) {
+                    checkbox.checked = !excludedPlatforms.includes(platform);
+                }
+            }
+        }
+        
+        // Initialize on page load
+        initializeSettings();
         fetchData();
         setInterval(fetchData, 60000); // Refresh every minute
     </script>

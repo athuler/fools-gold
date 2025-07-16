@@ -233,7 +233,23 @@ def get_latest_video_scores():
                 'combined': latest['total_views'] + latest['total_likes'] + latest['total_comments'],
                 'views': latest['total_views'],
                 'likes': latest['total_likes'],
-                'comments': latest['total_comments']
+                'comments': latest['total_comments'],
+                # Platform-specific data for frontend recalculation
+                'views_youtube': latest.get('views_youtube', 0),
+                'likes_youtube': latest.get('likes_youtube', 0),
+                'comments_youtube': latest.get('comments_youtube', 0),
+                'views_tiktok': latest.get('views_tiktok', 0),
+                'likes_tiktok': latest.get('likes_tiktok', 0),
+                'comments_tiktok': latest.get('comments_tiktok', 0),
+                'views_tumblr': latest.get('views_tumblr', 0),
+                'likes_tumblr': latest.get('likes_tumblr', 0),
+                'comments_tumblr': latest.get('comments_tumblr', 0),
+                'views_instagram': latest.get('views_instagram', 0),
+                'likes_instagram': latest.get('likes_instagram', 0),
+                'comments_instagram': latest.get('comments_instagram', 0),
+                'views_threads': latest.get('views_threads', 0),
+                'likes_threads': latest.get('likes_threads', 0),
+                'comments_threads': latest.get('comments_threads', 0)
             }
     return scores
 
@@ -296,7 +312,23 @@ def api_trends():
                     'combined': point['total_views'] + point['total_likes'] + point['total_comments'],
                     'views': point['total_views'],
                     'likes': point['total_likes'],
-                    'comments': point['total_comments']
+                    'comments': point['total_comments'],
+                    # Platform-specific data for frontend recalculation
+                    'views_youtube': point.get('views_youtube', 0),
+                    'likes_youtube': point.get('likes_youtube', 0),
+                    'comments_youtube': point.get('comments_youtube', 0),
+                    'views_tiktok': point.get('views_tiktok', 0),
+                    'likes_tiktok': point.get('likes_tiktok', 0),
+                    'comments_tiktok': point.get('comments_tiktok', 0),
+                    'views_tumblr': point.get('views_tumblr', 0),
+                    'likes_tumblr': point.get('likes_tumblr', 0),
+                    'comments_tumblr': point.get('comments_tumblr', 0),
+                    'views_instagram': point.get('views_instagram', 0),
+                    'likes_instagram': point.get('likes_instagram', 0),
+                    'comments_instagram': point.get('comments_instagram', 0),
+                    'views_threads': point.get('views_threads', 0),
+                    'likes_threads': point.get('likes_threads', 0),
+                    'comments_threads': point.get('comments_threads', 0)
                 } for point in video_data]
             }
     

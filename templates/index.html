@@ -633,11 +633,13 @@
                 <div class="settings-container">
                     <div class="setting-group">
                         <h3>Platform Inclusion</h3>
-                        <p class="setting-description">Toggle which platforms should be included in the metrics calculations. All platforms except Instagram and Threads are enabled by default (Instagram and Threads are disabled due to less accurate data).</p>
+                        <p class="setting-description">
+                            Toggle which platforms' metrics should be displayed. <br/>
+                        </p>
                         <div class="toggle-options">
                             <label class="toggle-option">
                                 <input type="checkbox" id="include-youtube" onchange="togglePlatform('youtube', this.checked)">
-                                <span class="toggle-label">Include YouTube</span>
+                                <span class="toggle-label">Include YouTube Shorts</span>
                             </label>
                             <label class="toggle-option">
                                 <input type="checkbox" id="include-tiktok" onchange="togglePlatform('tiktok', this.checked)">
@@ -660,6 +662,13 @@
                                 <span class="toggle-label">Include Threads</span>
                             </label>
                         </div>
+                        <p class="setting-description">
+                            <br/>
+                            Instagram and Threads are disabled by default due to inacurate data. <br/><br/>
+
+                            YouTube is disabled by default due to inacurate data between July 20 and 22, 2025.
+
+                        </p>
                     </div>
                 </div>
             </div>
@@ -687,7 +696,7 @@
         let trendMode = 'combined';
         let videoChart = null;
         let playerChart = null;
-        let excludedPlatforms = ['instagram', 'threads']; // Default to excluding these platforms
+        let excludedPlatforms = ['instagram', 'threads', 'youtube']; // Default to excluding these platforms
 
         async function fetchData() {
             try {

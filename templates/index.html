@@ -53,8 +53,32 @@
             color: #333;
         }
 
+        .header-links {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .header-links a {
+            color: #333;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 500;
+            padding: 4px 8px;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        .header-links a:hover {
+            text-decoration: underline;
+            opacity: 0.8;
+        }
+
         h1 {
-            font-size: 2.5em;
+            font-size: 3.5em;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
@@ -291,7 +315,7 @@
             }
             
             h1 {
-                font-size: 2em;
+                font-size: 2.5em;
             }
 
             .video-links-container {
@@ -450,6 +474,11 @@
         <header>
             <h1>Fool's Gold Scoring</h1>
             <p class="subtitle">Scoring the Game Changer Episode</p>
+            <div class="header-links">
+                <a href="https://www.dropout.tv/videos/fool-s-gold" target="_blank">📺 Watch the episode</a>
+                <a href="https://andreithuler.com/fools-gold/" target="_blank">ℹ️ About this project</a>
+                <a href="javascript:void(0)" onclick="window.open(&quot;https://donate.stripe.com/fZu5kD4tFdTYaG808l1Nu02&quot;, &quot;_blank&quot;)">💰 Donate</a>
+            </div>
         </header>
 
         <div class="content">
